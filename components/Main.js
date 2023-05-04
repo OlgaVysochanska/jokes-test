@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Today from '../Screens/Today';
-import History from '../Screens/History';
+import Today from "../Screens/Today";
+import History from "../Screens/History";
 
-import TodayIcon from '../assets/svg/TodayIcon';
-import HistoryIcon from '../assets/svg/HistoryIcon';
+import TodayIcon from "../assets/svg/TodayIcon";
+import HistoryIcon from "../assets/svg/HistoryIcon";
 
 const Tabs = createBottomTabNavigator();
 
@@ -14,21 +14,28 @@ export default Main = () => {
   return (
     <Tabs.Navigator
       initialRouteName="Today"
-      tabBarOptions={{
-        activeTintColor: '#9763FF',
-        inactiveTintColor: '#C1C3C6',
-      }}>
+      screenOptions={{
+        tabBarActiveTintColor: "#9763FF",
+        tabBarInactiveTintColor: "#C1C3C6",
+        tabBarStyle: [
+          {
+            display: "flex",
+          },
+          null,
+        ],
+      }}
+    >
       <Tabs.Screen
         name="Today"
         component={Today}
         options={{
-          title: 'Today',
+          title: "Today",
 
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: "bold",
             fontSize: 36,
           },
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <TodayIcon color={color} size={size} />
           ),
           tabBarShowLabel: true,
@@ -38,13 +45,13 @@ export default Main = () => {
         name="History"
         component={History}
         options={{
-          title: 'History',
+          title: "History",
 
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: "bold",
             fontSize: 36,
           },
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <HistoryIcon color={color} size={size} />
           ),
           tabBarShowLabel: true,

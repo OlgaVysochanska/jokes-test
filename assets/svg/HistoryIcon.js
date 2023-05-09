@@ -10,7 +10,7 @@ const HistoryIcon = (props) => (
   >
     <G clipPath="url(#a)">
       <Path
-        stroke="#9763FF"
+        stroke={props.color}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={2}

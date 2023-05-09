@@ -15,11 +15,17 @@ export default Main = () => {
     <Tabs.Navigator
       initialRouteName="Today"
       screenOptions={{
+        headerStyle: {
+          height: 120,
+        },
         tabBarActiveTintColor: "#9763FF",
         tabBarInactiveTintColor: "#C1C3C6",
         tabBarStyle: [
           {
             display: "flex",
+            justifyContent: "center",
+            height: 80,
+            paddingBottom: 30,
           },
           null,
         ],

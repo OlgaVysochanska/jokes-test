@@ -1,16 +1,29 @@
-import React, { useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 
 import { fetchJoke } from "../redux/jokesOperation";
-import { toggleStatus } from "../redux/jokesSlice";
+import { addJoke, toggleStatus } from "../redux/jokesSlice";
+import { getJoke } from "../services/jokesAPI";
 
 import FavIcon from "../assets/svg/FavIcon.js";
 import FavFilled from "../assets/svg/FavFilled.js";
 
 export default Today = () => {
-  const newJoke = useSelector((state) => state.jokes[state.jokes.length - 1]);
+  const [newJoke, setNewJoke] = useState(null);
+  console.log(newJoke);
+
+  const jokeAdded = useSelector(
+    (state) => state.jokes.jokes[state.jokes.jokes.length - 1]
+  );
+  const isLiked = useSelector(
+    (state) => state.jokes.jokes[state.jokes.jokes.length - 1].isLiked
+  );
+
+  useEffect(() => {
+    setNewJoke(jokeAdded);
+  }, [jokeAdded]);
 
   const dispatch = useDispatch();
 
@@ -21,21 +34,41 @@ export default Today = () => {
     );
   }, []);
 
-  const getNewJoke = () => {
-    dispatch(fetchJoke());
+  const getNewJoke = async () => {
+    await dispatch(fetchJoke());
+    const joke = await getJoke();
+    dispatch(addJoke(joke));
+  };
+
+  const likeJoke = () => {
+    dispatch(toggleStatus(newJoke.id));
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.text}>{newJoke}</Text>
-        <TouchableOpacity
+        {newJoke ? (
+          <>
+            <Text style={styles.text}>{newJoke.text}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                likeJoke();
+              }}
+            >
+              {isLiked ? <FavIcon /> : <FavFilled />}
+            </TouchableOpacity>
+          </>
+        ) : (
+          <Text>No jokes yet</Text>
+        )}
+
+        <Button
           onPress={() => {
-            useDispatch(toggleStatus(newJoke.id));
+            getNewJoke();
           }}
-        >
-          {newJoke ? <FavIcon /> : <FavFilled />}
-        </TouchableOpacity>
+          title={"Don't wait to midnight, add joke now:^)"}
+          color="#E6E6E6"
+        />
       </View>
     </View>
   );
@@ -44,6 +77,7 @@ export default Today = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
     backgroundColor: "#fff",
   },
   content: {
@@ -51,5 +85,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
 });

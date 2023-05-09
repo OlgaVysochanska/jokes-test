@@ -11,7 +11,7 @@ const TodayIcon = (props) => (
   >
     <G clipPath="url(#a)">
       <Path
-        stroke="#C1C3C6"
+        stroke={props.color}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={2}

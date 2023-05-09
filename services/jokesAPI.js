@@ -1,13 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: 'https://v2.jokeapi.dev/',
+  baseURL: "https://v2.jokeapi.dev",
 });
 
 export const getJoke = async () => {
   try {
-    const {data} = await instance.get('/joke');
-    return data;
+    const { data } = await instance.get("/joke/Any", {
+      params: {
+        type: "single",
+      },
+    });
+    console.log("api: ", data);
+    return data.joke;
   } catch (error) {
     throw error;
   }

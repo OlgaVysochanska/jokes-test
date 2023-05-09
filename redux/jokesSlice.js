@@ -1,40 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchJoke } from "./jokesOperation";
+import "react-native-get-random-values";
 import { nanoid } from "nanoid";
 
-const initialState = {
-  jokes: [],
-  loading: false,
-  error: null,
-};
+const jokesInitialState = [];
 
 const jokeSlice = createSlice({
   name: "jokes",
-  initialState: initialState,
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchJoke.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchJoke.fulfilled, (state, { payload }) => {
-        state.jokes.push({
-          id: nanoid(),
-          text: payload,
-          isLiked: false,
-        });
-        state.loading = false;
-      })
-      .addCase(fetchJoke.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload;
-      });
-  },
+  initialState: jokesInitialState,
   reducers: {
-    toggleStatus(state, { payload }) {
-      for (const joke of state) {
-        if (joke.id === payload) {
+    addJoke: {
+      reducer(state, action) {
+        console.log("slice", action.payload);
+        console.log(state);
+        state.jokes.push(action.payload);
+        console.log("after state push", action.payload);
+      },
+      prepare(text) {
+        return {
+          payload: {
+            text,
+            id: nanoid(),
+            isLiked: false,
+          },
+        };
+      },
+    },
+    toggleStatus(state, action) {
+      for (const joke of state.jokes) {
+        if (joke.id === action.payload) {
           joke.isLiked = !joke.isLiked;
           break;
         }
@@ -43,5 +37,5 @@ const jokeSlice = createSlice({
   },
 });
 
-export const { toggleStatus } = jokeSlice.actions;
+export const { addJoke, toggleStatus } = jokeSlice.actions;
 export default jokeSlice.reducer;

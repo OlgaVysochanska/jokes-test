@@ -7,7 +7,7 @@ import FavFilled from "../assets/svg/FavFilled.js";
 
 export default History = () => {
   const [jokes, setJokes] = useState([]);
-  const allJokes = useSelector((state) => state.jokes);
+  const allJokes = useSelector((state) => state.jokes.jokes);
 
   useEffect(() => {
     setJokes(allJokes);
@@ -33,11 +33,18 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   text: {
     fontSize: 16,
+    fontWeight: "bold",
+    marginRight: 20,
+    width: "100%",
   },
   content: {
     padding: 24,
+    paddingLeft: 40,
+    marginHorizontal: 24,
+    borderBottomWidth: 1,
     borderBottomColor: "#E6E6E6",
     flexDirection: "row",
     alignItems: "flex-start",
+    justifyContent: "flex-end",
   },
 });

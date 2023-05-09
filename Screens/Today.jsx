@@ -22,12 +22,11 @@ export default Today = () => {
 
   const dispatch = useDispatch();
 
+  const currentDay = new Date().getDate();
+
   useEffect(() => {
-    setTimeout(
-      getNewJoke,
-      moment("24:00:00", "hh:mm:ss").diff(moment(), "hours")
-    );
-  }, []);
+    getNewJoke();
+  }, [currentDay]);
 
   const getNewJoke = async () => {
     const joke = await getJoke();
@@ -49,7 +48,7 @@ export default Today = () => {
                 likeJoke();
               }}
             >
-              {isLiked ? <FavIcon /> : <FavFilled />}
+              {!isLiked ? <FavIcon /> : <FavFilled />}
             </TouchableOpacity>
           </>
         ) : (

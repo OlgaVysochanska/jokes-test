@@ -11,7 +11,6 @@ export const getJoke = async () => {
         type: "single",
       },
     });
-    console.log("api: ", data);
     return data.joke;
   } catch (error) {
     throw error;

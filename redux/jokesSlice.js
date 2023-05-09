@@ -11,10 +11,7 @@ const jokeSlice = createSlice({
   reducers: {
     addJoke: {
       reducer(state, action) {
-        console.log("slice", action.payload);
-        console.log(state);
         state.jokes.push(action.payload);
-        console.log("after state push", action.payload);
       },
       prepare(text) {
         return {

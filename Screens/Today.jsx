@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 
-import { fetchJoke } from "../redux/jokesOperation";
 import { addJoke, toggleStatus } from "../redux/jokesSlice";
+import { jokeAddedSt, isLikedSt } from "../redux/jokesSelectors";
 import { getJoke } from "../services/jokesAPI";
 
 import FavIcon from "../assets/svg/FavIcon.js";
@@ -12,14 +12,9 @@ import FavFilled from "../assets/svg/FavFilled.js";
 
 export default Today = () => {
   const [newJoke, setNewJoke] = useState(null);
-  console.log(newJoke);
 
-  const jokeAdded = useSelector(
-    (state) => state.jokes.jokes[state.jokes.jokes.length - 1]
-  );
-  const isLiked = useSelector(
-    (state) => state.jokes.jokes[state.jokes.jokes.length - 1].isLiked
-  );
+  const jokeAdded = useSelector(jokeAddedSt);
+  const isLiked = useSelector(isLikedSt);
 
   useEffect(() => {
     setNewJoke(jokeAdded);
@@ -30,12 +25,11 @@ export default Today = () => {
   useEffect(() => {
     setTimeout(
       getNewJoke,
-      moment("24:00:00", "hh:mm:ss").diff(moment(), "seconds")
+      moment("24:00:00", "hh:mm:ss").diff(moment(), "hours")
     );
   }, []);
 
   const getNewJoke = async () => {
-    await dispatch(fetchJoke());
     const joke = await getJoke();
     dispatch(addJoke(joke));
   };
